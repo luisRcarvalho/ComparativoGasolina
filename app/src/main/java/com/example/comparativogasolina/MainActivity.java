@@ -2,7 +2,9 @@ package com.example.comparativogasolina;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +14,11 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputEditText editPrecoAlcool, editPrecoGasolina;
     private TextView textResultado;
+    private Object pGasolina;
+    private Object pAlcool;
 
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void CalculaPreço(View view){
 
-        String PrecoAlcool = editPrecoAlcool.getText(PrecoAlcool);
-        String PrecoGasolina = editPrecoGasolina.getText(PrecoGasolina);
+        PrecoAlcool = editPrecoAlcool.getText( PrecoAlcool);
+        PrecoGasolina = editPrecoGasolina.getText( PrecoGasolina);
 
         Boolean camposValidados = validarCampos(PrecoAlcool, PrecoGasolina);
 
         if(camposValidados){
 
-            Double valorAlcool = Double.parseDouble(PrecoAlcool);
-            Double valorGasolina = Double.parseDouble(PrecoGasolina);
+            Double valorAlcool = Double.parseDouble(String.valueOf(PrecoAlcool));
+            Double valorGasolina = Double.parseDouble(String.valueOf(PrecoGasolina));
 
             Double resultado = valorAlcool / valorGasolina;
 
@@ -46,18 +52,17 @@ public class MainActivity extends AppCompatActivity {
                 textResultado.setText("Melhor utiliar o Alcool");
             }
         }
+    }
+    public Boolean validarCampos( String pAlcool, String pGasolina){
+        Boolean camposValidados = true;
 
-        public Boolean validarCampos(String pAlcool, String pGasolina);{
-            Boolean camposValidados = true;
-
-            if(pAlcool == null) || PrecoAlcool.equals(""){
-                camposValidados = false;
-            }
-            else if(pGasolina == null) || PrecoGasolina.equals(""){
-                camposValidados = false;
-            }
-
-            return camposValidados;
+        if((pAlcool == null) || PrecoAlcool.equals("")){
+            camposValidados = false;
         }
+        else if((pGasolina == null) || PrecoGasolina.equals("")){
+            camposValidados = false;
+        }
+
+        return camposValidados;
     }
 }
